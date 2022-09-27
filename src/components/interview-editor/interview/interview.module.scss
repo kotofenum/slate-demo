@@ -1,0 +1,19 @@
+.interview {
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #f8f8fa;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.heading {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
