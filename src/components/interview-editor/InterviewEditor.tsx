@@ -2,37 +2,63 @@ import React from "react";
 import {
   Editor,
   Node as SlateNode,
-  NodeEntry,
-  BaseEditor,
   Descendant,
-  Element,
   Transforms,
   createEditor,
 } from "slate";
 import {
   withReact,
-  ReactEditor,
   Slate,
   Editable,
   RenderElementProps,
+  useSlate,
+  useSlateStatic,
+  ReactEditor,
 } from "slate-react";
-import { HistoryEditor, withHistory } from "slate-history";
+import { withHistory } from "slate-history";
 
 import css from "./editor.module.scss";
-import { CustomElement } from "./editor";
+import { ElementType, InterviewItemElement } from "./types";
+import { InterviewItem } from "./interview-item";
+import { IRole } from "./interview-item/InterviewItem";
 
-// declare module "slate" {
-//   interface CustomTypes {
-//     Editor: BaseEditor & ReactEditor;
-//     Element: CustomElement;
-//     Text: CustomText;
-//   }
-// }
+export const role = {
+  interviewer: { id: "1", label: "Интервьюер" },
+  respondent: { id: "2", label: "Респондент" },
+};
+
+const roles = role; // TODO: fix
 
 const initialValue: Descendant[] = [
   {
-    type: "paragraph",
-    children: [{ text: "A line of text in a paragraph." }],
+    type: ElementType.interviewItem,
+    role: role.interviewer,
+    children: [
+      { text: "Вам, наверное, пришло уведомление, что запись началась?" },
+    ],
+  },
+  {
+    type: ElementType.interviewItem,
+    role: role.respondent,
+    children: [{ text: "Да." }],
+  },
+  {
+    type: ElementType.interviewItem,
+    role: role.interviewer,
+    children: [
+      {
+        text: "Хорошо, тогда давайте немного знакомиться с вами. Галина, скажите пожалуйста, в каком городе проживаете, сколько вам лет и чем вы вообще занимаетесь?",
+      },
+    ],
+  },
+  {
+    type: ElementType.interviewItem,
+    role: role.respondent,
+    children: [
+      {
+        text: "Мне 55 полных лет, я живу в Москве, я переводчик, а также персональный ассистент, работаю в компании по производству спортивных товаров.",
+      },
+    ],
   },
 ];
 
@@ -45,6 +71,8 @@ export const InterviewEditor = React.memo(function InterviewEditor(
 
   const renderElement = React.useCallback((props: RenderElementProps) => {
     switch (props.element.type) {
+      case "interviewItem":
+        return <InterviewItemWrapper {...props} />;
       case "code":
         return <CodeElement {...props} />;
       default:
@@ -58,6 +86,19 @@ export const InterviewEditor = React.memo(function InterviewEditor(
         <Editable
           renderElement={renderElement}
           onKeyDown={(event) => {
+            if (event.ctrlKey) {
+              event.preventDefault();
+
+              Transforms.setNodes(
+                editor,
+                {
+                  role: { id: "3", label: "someone" },
+                },
+                {
+                  match: (n: SlateNode) => Editor.isBlock(editor, n),
+                }
+              );
+            }
             if (event.key === "`" && event.ctrlKey) {
               event.preventDefault();
               // Determine whether any of the currently selected blocks are code blocks.
@@ -69,7 +110,11 @@ export const InterviewEditor = React.memo(function InterviewEditor(
               // Toggle the block type depending on whether there's already a match.
               Transforms.setNodes(
                 editor,
-                { type: match ? "paragraph" : "code" },
+                {
+                  type: match
+                    ? ElementType.paragraph
+                    : ElementType.interviewItem,
+                },
                 { match: (n: SlateNode) => Editor.isBlock(editor, n) }
               );
             }
@@ -90,4 +135,38 @@ const CodeElement = (props: RenderElementProps) => {
 
 const DefaultElement = (props: RenderElementProps) => {
   return <p {...props.attributes}>{props.children}</p>;
+};
+
+const InterviewItemWrapper = ({
+  attributes,
+  children,
+  element,
+}: RenderElementProps) => {
+  const editor = useSlateStatic();
+
+  const handleRoleChange = React.useCallback(
+    (role: IRole) => {
+      console.log(role);
+      const path = ReactEditor.findPath(editor, element);
+      const newProperties: Partial<InterviewItemElement> = {
+        role,
+      };
+      Transforms.setNodes(editor, newProperties, { at: path });
+    },
+    [editor, element]
+  );
+
+  if (element.type === ElementType.interviewItem) {
+    return (
+      <div {...attributes}>
+        <InterviewItem
+          role={element.role}
+          children={children}
+          onRoleChange={handleRoleChange}
+        />
+      </div>
+    );
+  } else {
+    return null; // TODO: fix
+  }
 };

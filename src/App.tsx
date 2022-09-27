@@ -1,4 +1,5 @@
 import "./App.scss";
+import { InterviewEditor } from "./components/interview-editor";
 // import { InterviewEditor } from "./components/interview-editor";
 import { Interview } from "./components/interview-editor/interview";
 import { InterviewItem } from "./components/interview-editor/interview-item";
@@ -18,10 +19,10 @@ const roles: IRole[] = [
 function App() {
   return (
     <div className="App">
-      {/* <InterviewEditor /> */}
       <div className="AppEditor">
         <Interview>
-          <InterviewItem role={roles[0]}>
+          <InterviewEditor />
+          {/* <InterviewItem role={roles[0]}>
             Вам, наверное, пришло уведомление, что запись началась?
           </InterviewItem>
           <InterviewItem role={roles[1]}>Да.</InterviewItem>
@@ -34,7 +35,7 @@ function App() {
             Мне 55 полных лет, я живу в Москве, я переводчик, а также
             персональный ассистент, работаю в компании по производству
             спортивных товаров.
-          </InterviewItem>
+          </InterviewItem> */}
         </Interview>
       </div>
     </div>
