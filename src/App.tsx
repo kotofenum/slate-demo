@@ -20,9 +20,8 @@ function App() {
   return (
     <div className="App">
       <div className="AppEditor">
-        <Interview>
-          <InterviewEditor />
-          {/* <InterviewItem role={roles[0]}>
+        <InterviewEditor />
+        {/* <InterviewItem role={roles[0]}>
             Вам, наверное, пришло уведомление, что запись началась?
           </InterviewItem>
           <InterviewItem role={roles[1]}>Да.</InterviewItem>
@@ -36,7 +35,6 @@ function App() {
             персональный ассистент, работаю в компании по производству
             спортивных товаров.
           </InterviewItem> */}
-        </Interview>
       </div>
     </div>
   );

@@ -5,11 +5,22 @@
   color: rgba(0, 0, 0, 0.85);
 }
 
+.filename {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.audio {
+  margin-bottom: 20px;
+}
+
 .heading {
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;
   margin-bottom: 16px;
+  user-select: none;
 }
 
 .list {

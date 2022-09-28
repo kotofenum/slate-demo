@@ -9,6 +9,17 @@ export enum ElementType {
   paragraph = "paragraph",
   code = "code",
   interviewItem = "interviewItem",
+  interview = "interview",
+}
+
+export enum TextType {
+  tag = "tag",
+}
+
+export enum TagType {
+  red = "red",
+  green = "green",
+  blue = "blue",
 }
 
 export type BaseCustomElement = BaseElement & {
@@ -30,11 +41,19 @@ export interface InterviewItemElement extends BaseCustomElement {
   children: CustomText[];
 }
 
+export interface InterviewElement extends BaseCustomElement {
+  type: ElementType.interview;
+  children: InterviewItemElement[];
+}
+
 export type CustomElement =
   | ParagraphElement
   | CodeElement
-  | InterviewItemElement;
+  | InterviewItemElement
+  | InterviewElement;
 
-export type FormattedText = { text: string; bold?: true };
+// export type FormattedText = { text: string; bold?: true };
 
-export type CustomText = BaseText;
+export type TagText = BaseText & { tag?: TagType };
+
+export type CustomText = TagText;

@@ -1,0 +1,32 @@
+.audioPlayer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 40px;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #cfd0d8;
+  border-radius: 8px;
+  font-size: 12px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 4px;
+  background-color: #cfd0d8;
+  user-select: none;
+  cursor: pointer;
+}
+
+.time {
+  font-size: 14px;
+}
