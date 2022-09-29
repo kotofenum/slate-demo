@@ -1,0 +1,19 @@
+.hoveringToolbar {
+  // padding: 8px 7px 6px;
+  // position: absolute;
+  // z-index: 1;
+  // top: -10000px;
+  // left: -10000px;
+  // margin-top: -6px;
+  // opacity: 0;
+  // background-color: #222;
+  // border-radius: 4px;
+  // transition: opacity 0.75s;
+
+  position: absolute;
+  padding: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}

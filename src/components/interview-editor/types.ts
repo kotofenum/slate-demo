@@ -1,7 +1,8 @@
-import { BaseEditor, BaseElement, BaseText } from "slate";
+import { BaseEditor, BaseElement, BaseText, Range } from "slate";
 import { ReactEditor } from "slate-react";
 import { HistoryEditor } from "slate-history";
 import { IRole } from "./interview-item/InterviewItem";
+import { ITag } from "./InterviewEditor";
 
 export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
 
@@ -35,9 +36,20 @@ export interface CodeElement extends BaseCustomElement {
   children: CustomText[];
 }
 
+export type TagRange = {
+  from: number;
+  to: number;
+};
+
+export type OverlappingTag = {
+  tagId: string;
+  range: TagRange;
+};
+
 export interface InterviewItemElement extends BaseCustomElement {
   type: ElementType.interviewItem;
   role: IRole;
+  tags: OverlappingTag[];
   children: CustomText[];
 }
 
